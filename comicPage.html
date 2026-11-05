@@ -1,1 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>X-Men Chronicles: Mutant History</title>
+  <style>
+    /* Comic Book Aesthetic Styling */
+    :root {
+      --comic-yellow: #fde24f;
+      --comic-blue: #00539c;
+      --comic-dark: #111111;
+      --comic-white: #ffffff;
+      --panel-border: 4px solid var(--comic-dark);
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #222;
+      background-image: radial-gradient(var(--comic-dark) 15%, transparent 16%),
+                        radial-gradient(var(--comic-dark) 15%, transparent 16%);
+      background-size: 12px 12px;
+      background-position: 0 0, 6px 6px;
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      padding: 20px;
+      color: var(--comic-dark);
+    }
+
+    header {
+      background: var(--comic-yellow);
+      text-align: center;
+      padding: 20px;
+      border: var(--panel-border);
+      box-shadow: 8px 8px 0px var(--comic-dark);
+      margin-bottom: 30px;
+      transform: rotate(-1deg);
+    }
+
+    header h1 {
+      font-size: 3rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      -webkit-text-stroke: 1px var(--comic-dark);
+      text-shadow: 3px 3px 0 var(--comic-blue);
+    }
+
+    .controls {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background: var(--comic-white);
+      font-family: inherit;
+      font-size: 1.1rem;
+      padding: 10px 20px;
+      border: var(--panel-border);
+      box-shadow: 4px 4px 0 var(--comic-dark);
+      cursor: pointer;
+      transition: 0.1s ease;
+    }
+
+    .btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--comic-dark);
+      background: var(--comic-yellow);
+    }
+
+    .btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--comic-dark);
+    }
+
+    /* Comic Book Grid Panels */
+    .comic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .panel {
+      background-color: var(--comic-white);
+      border: var(--panel-border);
+      box-shadow: 8px 8px 0px var(--comic-dark);
+      position: relative;
+      overflow: hidden;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: bspace-between;
+      padding: 15px;
+      transition: transform 0.2s ease;
+    }
+
+    .panel:hover {
+      transform: scale(1.02) rotate(1deg);
+      z-index: 10;
+    }
+
+    /* Alternating sizes for a dynamic look */
+    .panel:nth-child(even) {
+      transform: rotate(-1deg);
+    }
+    
+    .panel:nth-child(3n) {
+      grid-column: span 1;
+    }
+
+    .panel-header {
+      background: var(--comic-dark);
+      color: var(--comic-white);
+      padding: 5px 10px;
+      font-size: 0.9rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: skewX(-10deg);
+    }
+
+    .comic-art {
+      width: 100%;
+      height: 220px;
+      background-size: cover;
+      background-position: top center;
+      border: 3px solid var(--comic-dark);
+      margin-top: 15px;
+      background-color: #eee;
+    }
+
+    /* Comic Word Balloon Styling */
+    .word-bubble {
+      background: var(--comic-white);
+      border: 3px solid var(--comic-dark);
+      border-radius: 30px;
+      padding: 12px;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+      font-weight: bold;
+      font-size: 0.9rem;
+      line-height: 1.2;
+      text-align: center;
+      position: relative;
+      margin-top: 15px;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    }
+
+    /* Word bubble tail */
+    .word-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 30px;
+      border-width: 15px 15px 0 0;
+      border-style: solid;
+      border-color: var(--comic-dark) transparent;
+      display: block;
+      width: 0;
+    }
+
+    .word-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 32px;
+      border-width: 12px 12px 0 0;
+      border-style: solid;
+      border-color: var(--comic-white) transparent;
+      display: block;
+      width: 0;
+      z-index: 1;
+    }
+
+    .panel-footer {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 2px dashed var(--comic-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>X-Men History Panel</h1>
+  </header>
+
+  <div class="controls">
+    <button class="btn" id="load-btn">Toggle API Data View</button>
+  </div>
+
+  <main class="comic-grid" id="comic-container">
+    <!-- UI Panels will be inserted here dynamically -->
+  </main>
+
+  <script>
+    // Hybrid local/API data structure placeholder
+    const historicIssues = [
+      {
+        issue: "X-Men #1 (1963)",
+        title: "The X-Men!",
+        desc: "The world's strangest heroes emerge to fight Magneto!",
+        bubble: "Welcome to Xavier's School for Gifted Youngsters! Magneto won't know what hit him!",
+        image: "https://unsplash.com" // Temporary placeholder graphic
+      },
+      {
+        issue: "Giant-Size X-Men #1 (1975)",
+        title: "Second Genesis",
+        desc: "A brand new, international team assembles to rescue the originals.",
+        bubble: "Out of the way, bub! The All-New, All-Different team is stepping up to Krakoa!",
+        image: "https://unsplash.com"
+      },
+      {
+        issue: "X-Men #141 (1981)",
+        title: "Days of Future Past",
+        desc: "Kitty Pryde travels back in time to stop a dystopian sentinel timeline.",
+        bubble: "This whole timeline depends on us stopping the assassination! Watch out for the Sentinels!",
+        image: "https://unsplash.com"
+      }
+    ];
+
+    const apiMockIssues = [
+      {
+        issue: "Uncanny X-Men #101 (1976)",
+        title: "The Phoenix Legend",
+        desc: "Jean Grey transforms into the powerful Phoenix force.",
+        bubble: "I am fire and life incarnate! Now and forever... I am PHOENIX!",
+        image: "https://unsplash.com"
+      }
+    ];
+
+    const container = document.getElementById('comic-container');
+    const loadBtn = document.getElementById('load-btn');
+    let showingLiveApiData = false;
+
+    function renderPanels(issuesList) {
+      container.innerHTML = "";
+      issuesList.forEach(item => {
+        const panel = document.createElement('section');
+        panel.className = 'panel';
+        panel.innerHTML = `
+          <div class="panel-header">${item.issue}</div>
+          <div class="comic-art" style="background-image: url('${item.image}')"></div>
+          <div class="word-bubble">${item.bubble}</div>
+          <div class="panel-footer">${item.title}</div>
+        `;
+        container.appendChild(panel);
+      });
+    }
+
+    // SPA View Router Toggle
+    loadBtn.addEventListener('click', () => {
+      showingLiveApiData = !showingLiveApiData;
+      if (showingLiveApiData) {
+        renderPanels([...historicIssues, ...apiMockIssues]);
+        loadBtn.textContent = "Show Core Classic History Only";
+      } else {
+        renderPanels(historicIssues);
+        loadBtn.textContent = "Toggle API Data View";
+      }
+    });
+
+    // Initial load
+    renderPanels(historicIssues);
+  </script>
+</body>
+</html>
