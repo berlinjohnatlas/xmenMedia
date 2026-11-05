@@ -1,1 +1,590 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XMen Gaming Mag</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@400;700;900&family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #00d9ff;
+  --pink: #ff32b5;
+  --yellow: #faff00;
+  --purple: #8b32ff;
+  --dark: #10101d;
+  --white: #f7f5ff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background:
+    radial-gradient(circle at 50% 0%, #292052, #090914 70%);
+  color: var(--white);
+  font-family: 'Roboto Condensed', sans-serif;
+  padding: 25px 12px;
+}
+
+.magazine {
+  max-width: 1150px;
+  margin: auto;
+  background: #11111f;
+  border: 3px solid var(--blue);
+  box-shadow: 0 0 25px #00d9ff55;
+  overflow: hidden;
+}
+
+/* TOP BAR */
+
+.topbar {
+  background: var(--yellow);
+  color: #111;
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 18px;
+  font-family: Orbitron, sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+/* MASTHEAD */
+
+header {
+  padding: 20px;
+  text-align: center;
+  background:
+    linear-gradient(135deg, #160e38, #28105c, #10101d);
+  border-bottom: 4px solid var(--pink);
+}
+
+.logo {
+  font-family: Anton, sans-serif;
+  font-size: clamp(65px, 12vw, 125px);
+  line-height: .9;
+  font-style: italic;
+  letter-spacing: -4px;
+  color: var(--yellow);
+  text-shadow:
+    5px 5px 0 var(--pink),
+    10px 10px 0 var(--blue);
+}
+
+.tagline {
+  color: var(--blue);
+  font-family: Orbitron, sans-serif;
+  letter-spacing: 5px;
+  font-size: 11px;
+  margin-top: 18px;
+}
+
+.header-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 22px;
+  font-size: 11px;
+  font-weight: 900;
+  color: white;
+  border-top: 1px solid #ffffff44;
+  padding-top: 12px;
+}
+
+/* CONTENT */
+
+.content {
+  padding: 22px;
+}
+
+.section-label {
+  display: inline-block;
+  background: var(--pink);
+  color: white;
+  font-family: Orbitron, sans-serif;
+  font-weight: 900;
+  font-size: 11px;
+  padding: 7px 12px;
+  margin-bottom: 14px;
+  transform: skew(-8deg);
+}
+
+/* HERO */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.hero-image {
+  position: relative;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border: 3px solid var(--blue);
+  filter: saturate(1.25) contrast(1.1);
+}
+
+.hero-image::after {
+  content: "The X-Men never go out of Style!";
+  position: absolute;
+  bottom: 18px;
+  left: -8px;
+  background: var(--yellow);
+  color: #111;
+  font-family: Anton, sans-serif;
+  font-size: 25px;
+  padding: 5px 15px;
+  transform: rotate(-4deg);
+}
+
+.hero-text h2 {
+  font-family: Anton, sans-serif;
+  font-size: clamp(42px, 5vw, 65px);
+  line-height: .98;
+  color: var(--yellow);
+  text-transform: uppercase;
+  text-shadow: 3px 3px var(--pink);
+  margin-bottom: 17px;
+}
+
+.hero-text p {
+  color: #ccc9e6;
+  font-size: 15px;
+  line-height: 1.65;
+  margin-bottom: 15px;
+}
+
+.hero-text .subheading {
+  color: var(--blue);
+  font-family: Orbitron, sans-serif;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.read-more {
+  display: inline-block;
+  background: var(--blue);
+  color: #111;
+  padding: 10px 16px;
+  font-family: Orbitron, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  margin-top: 8px;
+}
+
+/* GAME GRID */
+
+.section-heading {
+  font-family: Anton, sans-serif;
+  font-size: 32px;
+  color: var(--blue);
+  border-bottom: 3px solid var(--pink);
+  padding-bottom: 8px;
+  margin: 30px 0 18px;
+  text-transform: uppercase;
+}
+
+.games {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.game-card {
+  background: #202038;
+  border: 2px solid #49446d;
+  padding: 10px;
+  transition: .2s;
+}
+
+.game-card:hover {
+  border-color: var(--yellow);
+  transform: translateY(-4px);
+}
+
+.game-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border: 2px solid var(--blue);
+}
+
+.game-card h3 {
+  font-family: Anton, sans-serif;
+  font-size: 25px;
+  color: var(--yellow);
+  margin: 10px 0 5px;
+}
+
+.game-card p {
+  color: #c5c1dc;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.rating {
+  color: var(--pink);
+  font-family: Orbitron, sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  margin-top: 12px;
+}
+
+/* FEATURE STRIP */
+
+.feature {
+  margin-top: 30px;
+  background: linear-gradient(120deg, #4220a5, #15152d);
+  border: 3px solid var(--pink);
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.feature img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border: 2px solid var(--yellow);
+}
+
+.feature h2 {
+  font-family: Anton, sans-serif;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--yellow);
+  margin-bottom: 15px;
+}
+
+.feature p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: white;
+}
+
+/* CHEAT CODE */
+
+.cheats {
+  background: #080812;
+  border: 2px dashed var(--blue);
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.cheats h2 {
+  color: var(--pink);
+  font-family: Anton, sans-serif;
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.code {
+  color: var(--yellow);
+  font-family: Orbitron, sans-serif;
+  font-size: 17px;
+  letter-spacing: 3px;
+  line-height: 2;
+}
+
+/* FOOTER */
+
+footer {
+  background: var(--pink);
+  color: white;
+  text-align: center;
+  padding: 17px;
+  font-family: Orbitron, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+@media(max-width: 700px) {
+  .hero,
+  .feature {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-image img {
+    height: 280px;
+  }
+
+  .games {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .header-info {
+    font-size: 8px;
+  }
+
+  .content {
+    padding: 14px;
+  }
+}
+
+@media(max-width: 440px) {
+  .games {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="magazine">
+
+  <div class="topbar">
+    <span>ISSUE #001</span>
+    <span><nav>
+        <a href="index.html">Home</a>
+        <a href="comicPage.html">Xmen COMICS</a>
+        <a href="moviePage.html">Xmen MOVIES</a>
+        <a href="videogamePage.html">Xmen Videogames</a>
+        <a href="patstewTRIB.html">Tribute Page</a>
+    </nav></span>
+    <span>$FREE</span>
+  </div>
+
+  <header>
+    <div class="logo">X-Men Gaming Mag</div>
+    <div class="tagline">INSERT COIN. PRESS START. CHEAT.</div>
+
+    <div class="header-info">
+      <span>NOVEMBER 2026</span>
+      <span><a href="#arcade-reviews">Arcade Review</a> • <a href="#console-reviews">Console Review</a> • <a href="#3d-console-reviews">3D Console Game Review</a> • <a href="#secrets">SECRETS</a></span> <!-- Work on this linking to the parts below-->
+      <span>Hosted by John Berlin, through Github</span>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- MAIN COVER STORY -->
+
+    <section class="hero" id="arcade-reviews">
+
+      <div class="hero-image">
+        <img src="images/cotaCharacterSelect.gif" alt="Children of the Atom Character Select">
+      </div>
+
+      <div class="hero-text">
+        <div class="section-label">Best-In-Class Xmen Art</div>
+
+        <h2>Classic 1990s Xmen represented in X-Men Children of the Atom</h2>
+
+        <div class="subheading">
+          The Best of X-Men in Gaming
+        </div>
+
+        <p>
+          Children of the Atom for the Capcom CPS-2 arcade system allowed the artists to recreate vibrant versions of the 90s era X-Men
+          heroes and villains ready for battle.
+        </p>
+
+        <p>
+          Capcom Developed this arcade system to be versatile and inexpensive for Arcade Operators in the face of more powerful 3D hardware.
+          3D Graphics of the time would not have been able to compete with the detail and animation seen in Children of the Atom.
+        </p>
+
+        <p>
+          Other Capcom games followed the same design philosophy but expanded to the larger Marvel Universe.
+        </p>
+
+        <span class="read-more"><button>READ THE FULL STORY →</button></span>
+      </div>
+
+    </section>
+
+    <!-- GAME REVIEWS -->
+    <section id="console-reviews">
+
+    <h2 class="section-heading">X-men in the Arcades and Home Consoles</h2>
+
+    <section class="games">
+
+      <article class="game-card">
+        <img src="images/xmenArcadeDynamic.gif" alt="X-Men Arcade Dynamic">
+
+        <h3>ARCADE FEVER</h3>
+
+        <p>
+          Side-Scrolling Beat-em-Up action was popular during the release of Konami's classic X-Men Arcade Game in the 1992.
+        </p>
+
+        <div class="rating">★ 9.2 / 10</div>
+      </article>
+
+      <article class="game-card">
+        <img src="images/sentinalSmash.gif" alt="Sentinel Smash">
+
+        <h3>6-player simultaneous action</h3>
+
+        <p>
+          The Konami Produced X-Men Arcade game allowed up to 6 players to engage in simultaneous action, providing
+           an intense and chaotic cooperative experience.
+        </p>
+
+        <div class="rating">★ 8.8 / 10</div>
+      </article>
+
+      <article class="game-card">
+        <img src="images/magnetoLeadingSentinals.gif" alt="Magneto Leading the Sentinals">
+        
+
+        <h3>PIXEL POWER</h3>
+
+        <p>
+          Konami perfectly captured the look of the 1990s X-Men Saturday morning cartoon series in the game's attract screens.
+        </p>
+
+        <div class="rating">★ 9.5 / 10</div>
+      </article>
+
+    </section>
+    <section class="games">
+
+      <article class="game-card">
+        <img src="images/mutantApocalypse1.gif" alt="X-Men: Mutant Apocalypse on SNES 1993">
+
+        <h3>CONSOLE ACTION</h3>
+
+        <p>
+          The SNES also got a taste of multi-X-Men action in a campaign against Apocalypse.
+        </p>
+
+        <div class="rating">★ 9.2 / 10</div>
+      </article>
+
+      <article class="game-card">
+        <img src="images/XmenSega.gif" alt="X-Men on Sega">
+
+        <h3>SEGA ACTION</h3>
+
+        <p>
+          The Sega version of X-Men allowed players to choose between Gambit, Nightcrawler, Wolverine and Cyclops. Travelling through
+        dangerous holographic locations through portals in the "Danger Room"</p>
+
+        <div class="rating">★ 8.8 / 10</div>
+      </article>
+
+      <article class="game-card">
+        <img src="images/xmen2Sega3.gif" alt="X-Men 2 on Sega">
+        
+
+        <h3>SEGA Classic</h3>
+
+        <p>
+          The Sega version of X-Men 2 continued the action-packed gameplay, allowing players to recruit villians like Magneto
+           and experience the classic X-Men adventures in the Savage Land and against Apocalypse.
+        </p>
+
+        <div class="rating">★ 9.5 / 10</div>
+      </article>
+
+    </section>
+    <!-- FEATURE STORY -->
+
+    <section class="feature" id="3d-console-reviews">
+
+      <div>
+        <div class="section-label">Modern X-men Interpretations</div>
+
+        <h2>XMEN in 3D after the success of the X-Men(2000) in the theaters</h2>
+
+        <p>
+          Once the success in the arcades started waning, developers began to recognize the need to develop large scale interactive
+          3D experiences to captivate audiences and maintain the franchise's popularity.
+        </p>
+
+        <br>
+
+        <p>
+          This Xmen game was especially fun for gamers who wanted to play multiplayer in the home. 
+        </p>
+      </div>
+
+      <div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/yxqDC643kvI?si=v1DlDMziiKKHFYsd&amp;start=8107" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+
+    </section>
+    <section class="feature" id="3d-console-reviews">
+
+      <div>
+        <div class="section-label">Modern X-men Interpretations</div>
+
+        <h2>Good News for fans of the X-men movie. An official licensed adaptation for Xbox 360!</h2>
+
+        <p>
+          Once the success in the arcades started waning, developers began to recognize the need to develop large scale interactive
+          3D experiences to captivate audiences and maintain the franchise's popularity.
+        </p>
+
+        <br>
+
+        <p>
+          This Xmen game was especially fun for gamers who wanted to play multiplayer in the home. 
+        </p>
+      </div>
+
+      <div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/fxBtFHjTmbQ?si=W2SR0l-jGOkJlr8h&amp;start=1257" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+
+    </section>
+    
+
+    <!-- CHEAT CODES -->
+
+    <section class="cheats" id="secrets">
+      <h2>★ CHEAT CODE CORNER ★</h2>
+
+      <p>X-Men on Sega Genesis is brutally hard, try this code to see the whole game!</p>
+
+      <div class="code">
+        1. Unplug the controller from port two.<br>
+        2. At the title screen, when "Press Start" appears, hold Down + A + C + Start.<br>
+        3. Keep holding until the difficulty selection screen appears.<br>
+        4. Choose your difficulty and character, then walk a bit to the right in the first area.<br>
+        5. On the back wall, you will see eight panels representing the eight game levels. Crouch in front of a panel and press C to warp directly to that stage<br>
+        6. Pressing Start twice while in this mode heals your character and grants infinite lives.
+      </div>
+
+      <p>X-Men on Sega Genesis is brutally hard, try this code to see the whole game!</p>
+
+      <div class="code">
+        1. Unplug the controller from port two.<br>
+        2. At the title screen, when "Press Start" appears, hold Down + A + C + Start.<br>
+        3. Keep holding until the difficulty selection screen appears.<br>
+        4. Choose your difficulty and character, then walk a bit to the right in the first area.<br>
+        5. On the back wall, you will see eight panels representing the eight game levels. Crouch in front of a panel and press C to warp directly to that stage<br>
+        6. Pressing Start twice while in this mode heals your character and grants infinite lives.
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+        <p>&copy; 2026 John Berlin | Contact: john.berlin@atlasstudents.com</p>
+        <p>&copy; 2026 Eric Robinson | Contact: eric.robinson@atlasstudents.com</p>
+        <p>&copy; 2026 Warren Green | Contact: warren.green@atlasstudents.com</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
+

@@ -1,1 +1,124 @@
+        body {   
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333; 
+            }
+        header {    
+             background: linear-gradient(to bottom, #fbf017, #041ec6);
+             color: #fff; 
+             padding: 1rem 2rem; 
+             text-align: center; 
+            }
+        h1 {   
+            font-size: 48px;
+            background: linear-gradient(to top, #e9ac05, #522605);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            }
+        .slanted-text {
+                /* Accepts any angle from -90deg to 90deg */
+                font-style: oblique 20deg; 
+            }
+
+        @import url('https://googleapis.com');
+        h3.xmen-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffcc00; /* Classic X-Men yellow/gold */
+            text-shadow: 1.5px 1.5px 0px #cc0000; /* Classic blue drop shadow */
+            }
+
+        nav { 
+            display: flex;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background: #444;
+            padding: 0.5rem; 
+            }
+        nav a { 
+               color: white; 
+               margin: 0 1rem; 
+               text-decoration: none; 
+               font-weight: bold; 
+            }
+        nav a:hover 
+            { 
+               text-decoration: underline; 
+            }
+            a:active {
+                color: inherit;
+            }
+            a:visited {
+                color: inherit;
+            }
+        main { 
+               padding: 2rem;
+               max-width: 600px;
+               margin: auto; background: white;
+               box-shadow: 0 0 10px rgba(0,0,0,0.1);
+               margin-top: 2rem; border-radius: 8px; 
+            }
+        form { 
+              display: flex;
+              flex-direction: column;
+              gap: 1rem;
+            }
+        input, textarea { 
+              padding: 0.5rem;
+              border: 1px solid #ccc;
+              border-radius: 4px; 
+            }
+        button {
+              background: #333;
+              color: white;
+              border: none; padding: 0.75rem;
+              cursor: pointer; border-radius: 4px;
+            }
+        button:hover { 
+              background: #555;
+            }
+        footer { 
+            text-align: center;
+            padding: 1rem; background: linear-gradient(to bottom, #555, #333);
+            color: white;
+            margin-top: 2rem;
+            }
+        ul { 
+            line-height: 1.8; 
+            }
+
+
+        .image-gallery {
+            background-color: black;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #ff32b5;
+            }
+
+        .main-image {
+            display: block;
+            width: 300px;
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto 20px;
+            border: 12px solid #00d9ff;
+            }
+
+.candle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(71px, 1fr));
+            justify-content: center;
+            gap: 10px;
+            }
+
+.candle-grid img {
+            width: 71px;
+            height: auto;
+            display: block;
+}
 
