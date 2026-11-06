@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movies | Tribute to Patrick Stewart</title>
+  <link rel="stylesheet" href="moviePage.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
 
+  <!-- Shared nav: same on every page -->
+  <header class="site-header">
+    <a class="logo" href="index.html">Professor X Tribute</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="moviePage.html" class="active">Movies</a>
+      <a href="VideogamePage.html">Games</a>
+      <a href="comicPage.html">Comics</a>
+      <a href="patstewTRIB.html">Tribute</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-intro fade-in">
+      <h1>The Movies</h1>
+      <p>Patrick Stewart played Professor Charles Xavier across the X-Men films.
+         Below are his X-Men movies. Use the search to look up any other movie.</p>
+    </section>
+
+    <!-- Trailers for the top 6 box office X-Men movies -->
+    <section class="trailers">
+      <h2>Top 6 X-Men Movies at the Box Office</h2>
+      <p class="note">Ranked by worldwide box office (Box Office Mojo).</p>
+      <div id="trailers" class="trailer-grid"></div>
+    </section>
+
+    <!-- The form -->
+    <form id="search-form" class="search-form">
+      <label for="search-input">Search for a movie</label>
+      <div class="search-row">
+        <input type="text" id="search-input" placeholder="e.g. X-Men: Days of Future Past" required>
+        <button type="submit">Search</button>
+      </div>
+    </form>
+
+    <!-- JavaScript puts the movie cards in here -->
+    <h2 id="results-title">Patrick Stewart's X-Men Movies</h2>
+    <p id="message"></p>
+    <div id="results" class="card-grid"></div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Movie data and images from
+      <a href="https://www.themoviedb.org/" target="_blank">TMDB</a>.
+      This site uses the TMDB API but is not endorsed or certified by TMDB.</p>
+  </footer>
+
+  <script src="moviePage.js"></script>
+</body>
+</html>
