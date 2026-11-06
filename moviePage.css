@@ -392,23 +392,6 @@ button:hover {
   border: 1px solid rgba(234, 179, 8, 0.5);
 }
 
-.cerebro .wireframe-button {
-  padding: 6px 12px;
-  background: var(--panel);
-  color: #cbd5e1;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  font-family: "Fira Code", monospace;
-  font-weight: 400;
-  font-size: 0.7rem;
-  letter-spacing: 0;
-}
-
-.cerebro .wireframe-button:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
 /* ----- Hero ----- */
 .cc-hero {
   position: relative;
@@ -887,8 +870,8 @@ button:hover {
 }
 
 @keyframes glow-1 {
-  from { filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.3)); }
-  to   { filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6)); }
+  from { filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.5)); }
+  to   { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.8)); }
 }
 
 @keyframes glow-2 {
@@ -1298,43 +1281,6 @@ button:hover {
     width: 160px;
     height: 160px;
   }
-}
-
-/* ----- Wireframe mode: plain black and white for wireframe screenshots ----- */
-.cerebro.wireframe-mode {
-  background: #ffffff;
-}
-
-.wireframe-mode * {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border-color: #000000 !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-  filter: none !important;
-  font-family: "Fira Code", monospace !important;
-}
-
-.wireframe-mode .gradient-text {
-  -webkit-background-clip: border-box;
-  background-clip: border-box;
-}
-
-.wireframe-mode img,
-.wireframe-mode svg,
-.wireframe-mode iframe {
-  visibility: hidden;   /* images become empty boxes */
-}
-
-.wireframe-mode .poster-box,
-.wireframe-mode .slide-media,
-.wireframe-mode .popcorn {
-  border: 2px dashed #000000;
-}
-
-.wireframe-mode .glow,
-.wireframe-mode .scanlines::after {
-  display: none;
 }
 
 /* ----- Tablet ----- */

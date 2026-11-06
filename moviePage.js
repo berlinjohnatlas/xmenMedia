@@ -526,20 +526,6 @@ document.getElementById("greeting-button").addEventListener("click", function ()
 });
 
 
-// ===== Wireframe mode (black-and-white view for wireframe screenshots) =====
-const wireframeButton = document.getElementById("wireframe-button");
-
-wireframeButton.addEventListener("click", function () {
-  document.body.classList.toggle("wireframe-mode");
-
-  if (document.body.classList.contains("wireframe-mode")) {
-    wireframeButton.textContent = "Wireframe: ON";
-  } else {
-    wireframeButton.textContent = "Wireframe: OFF";
-  }
-});
-
-
 // ===== Popcorn bucket: pops popcorn when the mouse moves over it =====
 const popcorn = document.getElementById("popcorn");
 const popCount = document.getElementById("pop-count");
