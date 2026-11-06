@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movies | Tribute to Patrick Stewart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Limelight&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="moviePage.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body>
+<body class="box-office">
 
   <!-- Shared nav: same on every page -->
   <header class="site-header">
@@ -21,39 +23,133 @@
     </nav>
   </header>
 
-  <main>
-    <section class="page-intro fade-in">
+  <main class="theater-page">
+
+    <!-- Title sign -->
+    <section class="marquee fade-in">
+      <p class="now-showing">Now Showing</p>
       <h1>The Movies</h1>
       <p>Patrick Stewart played Professor Charles Xavier across the X-Men films.
-         Below are his X-Men movies. Use the search to look up any other movie.</p>
+         Here are the six biggest X-Men movies at the box office.</p>
     </section>
 
-    <!-- Trailers for the top 6 box office X-Men movies -->
-    <section class="trailers">
-      <h2>Top 6 X-Men Movies at the Box Office</h2>
-      <p class="note">Ranked by worldwide box office (Box Office Mojo).</p>
-      <div id="trailers" class="trailer-grid"></div>
-    </section>
+    <!-- The projector shines the carousel onto the screen -->
+    <section class="theater">
 
-    <!-- The form -->
-    <form id="search-form" class="search-form">
-      <label for="search-input">Search for a movie</label>
-      <div class="search-row">
-        <input type="text" id="search-input" placeholder="e.g. X-Men: Days of Future Past" required>
-        <button type="submit">Search</button>
+      <!-- Giant cartoon film projector -->
+      <div class="projector" aria-hidden="true">
+        <svg viewBox="0 0 320 300">
+          <!-- film reels (they spin) -->
+          <g class="reel">
+            <circle cx="95" cy="70" r="55" fill="#2b2b2b" stroke="#f2c230" stroke-width="5"/>
+            <circle cx="95" cy="70" r="12" fill="#f2c230"/>
+            <circle cx="95" cy="38" r="11" fill="#5a0f18"/>
+            <circle cx="95" cy="102" r="11" fill="#5a0f18"/>
+            <circle cx="63" cy="70" r="11" fill="#5a0f18"/>
+            <circle cx="127" cy="70" r="11" fill="#5a0f18"/>
+          </g>
+          <g class="reel reel-small">
+            <circle cx="210" cy="62" r="45" fill="#2b2b2b" stroke="#f2c230" stroke-width="5"/>
+            <circle cx="210" cy="62" r="10" fill="#f2c230"/>
+            <circle cx="210" cy="36" r="9" fill="#5a0f18"/>
+            <circle cx="210" cy="88" r="9" fill="#5a0f18"/>
+            <circle cx="184" cy="62" r="9" fill="#5a0f18"/>
+            <circle cx="236" cy="62" r="9" fill="#5a0f18"/>
+          </g>
+          <!-- film running between the reels -->
+          <path d="M95 125 L150 135 L210 107" fill="none" stroke="#2b2b2b" stroke-width="6"/>
+
+          <!-- legs -->
+          <line x1="110" y1="225" x2="70" y2="295" stroke="#2b2b2b" stroke-width="10" stroke-linecap="round"/>
+          <line x1="150" y1="225" x2="150" y2="295" stroke="#2b2b2b" stroke-width="10" stroke-linecap="round"/>
+          <line x1="190" y1="225" x2="230" y2="295" stroke="#2b2b2b" stroke-width="10" stroke-linecap="round"/>
+
+          <!-- body -->
+          <rect x="40" y="120" width="210" height="110" rx="22" fill="#c8102e" stroke="#f2c230" stroke-width="5"/>
+
+          <!-- lens -->
+          <rect x="245" y="150" width="40" height="50" rx="6" fill="#555"/>
+          <circle cx="290" cy="175" r="27" fill="#0f1b2d" stroke="#f2c230" stroke-width="5"/>
+          <circle cx="283" cy="167" r="8" fill="#ffffff" opacity="0.8"/>
+
+          <!-- cartoon face -->
+          <g class="eyes">
+            <ellipse cx="105" cy="165" rx="17" ry="20" fill="#ffffff"/>
+            <ellipse cx="165" cy="165" rx="17" ry="20" fill="#ffffff"/>
+            <circle cx="111" cy="168" r="8" fill="#0f1b2d"/>
+            <circle cx="171" cy="168" r="8" fill="#0f1b2d"/>
+          </g>
+          <path d="M110 200 Q135 220 160 200" fill="none" stroke="#0f1b2d" stroke-width="5" stroke-linecap="round"/>
+        </svg>
       </div>
-    </form>
 
-    <!-- JavaScript puts the movie cards in here -->
-    <h2 id="results-title">Patrick Stewart's X-Men Movies</h2>
-    <p id="message"></p>
-    <div id="results" class="card-grid"></div>
+      <!-- Light beam from the lens to the screen -->
+      <div id="beam" class="beam"></div>
+
+      <!-- The movie screen with the carousel -->
+      <div class="screen">
+        <div class="carousel">
+          <div id="slides" class="slides"></div>
+        </div>
+
+        <div class="carousel-controls">
+          <button id="prev-button" type="button" aria-label="Previous movie">&#9664;</button>
+          <div id="dots" class="dots"></div>
+          <button id="next-button" type="button" aria-label="Next movie">&#9654;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Concession stand: search form + popcorn -->
+    <section class="snack-bar">
+      <form id="search-form" class="search-form">
+        <label for="search-input">Search for any movie</label>
+        <div class="search-row">
+          <input type="text" id="search-input" placeholder="e.g. X-Men: Days of Future Past" required>
+          <button type="submit">Search</button>
+        </div>
+      </form>
+
+      <div class="popcorn-area">
+        <div id="popcorn" class="popcorn">
+          <svg viewBox="0 0 200 220" aria-hidden="true">
+            <g fill="#fff7dc" stroke="#f2c230" stroke-width="2">
+              <circle cx="45" cy="70" r="22"/>
+              <circle cx="80" cy="52" r="25"/>
+              <circle cx="120" cy="52" r="25"/>
+              <circle cx="155" cy="70" r="22"/>
+              <circle cx="100" cy="38" r="22"/>
+              <circle cx="65" cy="80" r="20"/>
+              <circle cx="135" cy="80" r="20"/>
+            </g>
+            <polygon points="30,85 170,85 150,215 50,215" fill="#ffffff"/>
+            <polygon points="30,85 51,85 63,215 50,215" fill="#c8102e"/>
+            <polygon points="72,85 93,85 92,215 77,215" fill="#c8102e"/>
+            <polygon points="107,85 128,85 123,215 108,215" fill="#c8102e"/>
+            <polygon points="149,85 170,85 150,215 137,215" fill="#c8102e"/>
+            <rect x="62" y="125" width="76" height="34" rx="6" fill="#f2c230"/>
+            <text x="100" y="149" text-anchor="middle" font-family="Georgia, serif"
+                  font-size="20" font-weight="bold" fill="#0f1b2d">X-POP</text>
+          </svg>
+        </div>
+        <p class="popcorn-hint">Hover over (or tap) the popcorn!</p>
+        <p class="popcorn-count">Popped: <span id="pop-count">0</span></p>
+      </div>
+    </section>
+
+    <!-- Film strip: Patrick Stewart's X-Men movies, or search results -->
+    <section>
+      <h2 id="results-title">Patrick Stewart's X-Men Movies</h2>
+      <p id="message"></p>
+      <div id="results" class="film-strip"></div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <p>Movie data and images from
       <a href="https://www.themoviedb.org/" target="_blank">TMDB</a>.
-      This site uses the TMDB API but is not endorsed or certified by TMDB.</p>
+      This site uses the TMDB API but is not endorsed or certified by TMDB.
+      Box office numbers from Box Office Mojo.</p>
   </footer>
 
   <script src="moviePage.js"></script>

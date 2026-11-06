@@ -1,7 +1,8 @@
 // ===== Setup =====
 const API_KEY = "PUT_YOUR_TMDB_API_KEY_HERE";
 const BASE_URL = "https://api.themoviedb.org/3";
-const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+const IMAGE_URL = "https://image.tmdb.org/t/p/w500";     // posters
+const BACKDROP_URL = "https://image.tmdb.org/t/p/w780";  // wide movie stills
 const PATRICK_STEWART_ID = 2387; // Patrick Stewart's ID on TMDB
 
 const form = document.getElementById("search-form");
@@ -9,7 +10,6 @@ const input = document.getElementById("search-input");
 const results = document.getElementById("results");
 const resultsTitle = document.getElementById("results-title");
 const message = document.getElementById("message");
-const trailers = document.getElementById("trailers");
 
 // Top 6 X-Men movies by worldwide box office (Box Office Mojo)
 const TOP_MOVIES = [
@@ -22,63 +22,165 @@ const TOP_MOVIES = [
 ];
 
 
-// ===== Trailers: show a YouTube trailer for each top movie =====
-function loadTrailers() {
+// ===== Carousel =====
+const slidesBox = document.getElementById("slides");
+const dotsBox = document.getElementById("dots");
+const prevButton = document.getElementById("prev-button");
+const nextButton = document.getElementById("next-button");
+const beam = document.getElementById("beam");
+
+let currentSlide = 0;
+const slides = [];   // each slide's elements and TMDB info
+
+// Build one slide (and one dot) for each top movie
+function buildCarousel() {
   for (let i = 0; i < TOP_MOVIES.length; i++) {
     const topMovie = TOP_MOVIES[i];
 
-    // Make the box first, so the movies stay in order (#1 to #6)
-    const box = document.createElement("div");
-    box.classList.add("trailer", "pop-in");
+    const slide = document.createElement("div");
+    slide.classList.add("slide");
+
+    // The picture area (shows the movie still, or the trailer when playing)
+    const media = document.createElement("div");
+    media.classList.add("slide-media");
+    const img = document.createElement("img");
+    img.src = "images/no-poster.svg";
+    img.alt = topMovie.title;
+    media.appendChild(img);
+    slide.appendChild(media);
+
+    // Caption at the bottom of the screen
+    const caption = document.createElement("div");
+    caption.classList.add("slide-caption");
+
+    const rank = document.createElement("p");
+    rank.classList.add("rank");
+    rank.textContent = "#" + (i + 1) + " at the box office · " + topMovie.gross + " worldwide";
+    caption.appendChild(rank);
 
     const h3 = document.createElement("h3");
-    h3.textContent = "#" + (i + 1) + " " + topMovie.title + " (" + topMovie.year + ")";
-    box.appendChild(h3);
+    h3.textContent = topMovie.title + " (" + topMovie.year + ")";
+    caption.appendChild(h3);
 
-    const gross = document.createElement("p");
-    gross.classList.add("year");
-    gross.textContent = "Worldwide box office: " + topMovie.gross;
-    box.appendChild(gross);
+    const playButton = document.createElement("button");
+    playButton.type = "button";
+    playButton.textContent = "▶ Play trailer";
+    playButton.addEventListener("click", function () {
+      playTrailer(i);
+    });
+    caption.appendChild(playButton);
 
-    trailers.appendChild(box);
+    slide.appendChild(caption);
+    slidesBox.appendChild(slide);
 
-    // Step 1: search TMDB to get the movie's ID
+    // Dot under the screen
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.classList.add("dot");
+    dot.setAttribute("aria-label", "Show movie " + (i + 1));
+    dot.addEventListener("click", function () {
+      showSlide(i);
+    });
+    dotsBox.appendChild(dot);
+
+    slides.push({ media: media, img: img, dot: dot, movieId: null });
+
+    // Ask TMDB for this movie's ID and wide picture
     axios.get(BASE_URL + "/search/movie?api_key=" + API_KEY +
               "&query=" + encodeURIComponent(topMovie.title) +
               "&primary_release_year=" + topMovie.year)
       .then(function (response) {
-        const movieId = response.data.results[0].id;
-
-        // Step 2: get that movie's videos
-        return axios.get(BASE_URL + "/movie/" + movieId + "/videos?api_key=" + API_KEY);
-      })
-      .then(function (response) {
-        const videos = response.data.results;
-
-        // Step 3: find the first YouTube trailer
-        for (let j = 0; j < videos.length; j++) {
-          if (videos[j].site === "YouTube" && videos[j].type === "Trailer") {
-            const iframe = document.createElement("iframe");
-            iframe.src = "https://www.youtube-nocookie.com/embed/" + videos[j].key;
-            iframe.title = topMovie.title + " trailer";
-            iframe.allowFullscreen = true;
-            box.appendChild(iframe);
-            return;
-          }
+        const movie = response.data.results[0];
+        slides[i].movieId = movie.id;
+        if (movie.backdrop_path) {
+          img.src = BACKDROP_URL + movie.backdrop_path;
         }
-
-        const none = document.createElement("p");
-        none.textContent = "No trailer found.";
-        box.appendChild(none);
       })
       .catch(function (error) {
         console.log(error);
-        const fail = document.createElement("p");
-        fail.textContent = "Couldn't load this trailer.";
-        box.appendChild(fail);
       });
   }
+
+  showSlide(0);
 }
+
+// Slide the carousel to one movie
+function showSlide(index) {
+  // Wrap around: after the last movie, go back to the first
+  if (index < 0) {
+    index = slides.length - 1;
+  }
+  if (index >= slides.length) {
+    index = 0;
+  }
+
+  stopTrailer(currentSlide);
+  currentSlide = index;
+
+  // Move the row of slides so the right one is on the screen
+  slidesBox.style.transform = "translateX(-" + (index * 100) + "%)";
+
+  // Light up the matching dot
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].dot.classList.remove("active");
+  }
+  slides[index].dot.classList.add("active");
+
+  // Make the projector beam flicker
+  beam.classList.remove("flicker");
+  setTimeout(function () {
+    beam.classList.add("flicker");
+  }, 10);
+}
+
+// Put the YouTube trailer on the screen
+function playTrailer(index) {
+  const slide = slides[index];
+  if (slide.movieId === null) {
+    return; // TMDB hasn't answered yet
+  }
+
+  axios.get(BASE_URL + "/movie/" + slide.movieId + "/videos?api_key=" + API_KEY)
+    .then(function (response) {
+      const videos = response.data.results;
+
+      for (let i = 0; i < videos.length; i++) {
+        if (videos[i].site === "YouTube" && videos[i].type === "Trailer") {
+          const iframe = document.createElement("iframe");
+          iframe.src = "https://www.youtube-nocookie.com/embed/" + videos[i].key + "?autoplay=1";
+          iframe.title = TOP_MOVIES[index].title + " trailer";
+          iframe.allow = "autoplay; fullscreen";
+          iframe.allowFullscreen = true;
+
+          slide.media.innerHTML = "";
+          slide.media.appendChild(iframe);
+          slide.media.parentElement.classList.add("playing");
+          return;
+        }
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+// Take the trailer off the screen and put the picture back
+function stopTrailer(index) {
+  const slide = slides[index];
+  if (slide && slide.media.querySelector("iframe")) {
+    slide.media.innerHTML = "";
+    slide.media.appendChild(slide.img);
+    slide.media.parentElement.classList.remove("playing");
+  }
+}
+
+prevButton.addEventListener("click", function () {
+  showSlide(currentSlide - 1);
+});
+
+nextButton.addEventListener("click", function () {
+  showSlide(currentSlide + 1);
+});
 
 
 // ===== Load Patrick Stewart's X-Men movies when the page opens =====
@@ -130,7 +232,7 @@ form.addEventListener("submit", function (event) {
 });
 
 
-// ===== Build one card for each movie =====
+// ===== Build one card (film frame) for each movie =====
 function showMovies(movies) {
   results.innerHTML = ""; // clear old cards
 
@@ -181,6 +283,7 @@ function showMovies(movies) {
 
     // Short summary
     const overview = document.createElement("p");
+    overview.classList.add("overview");
     overview.textContent = movie.overview;
     card.appendChild(overview);
 
@@ -195,7 +298,7 @@ function showMovies(movies) {
     links.appendChild(tmdbLink);
 
     const trailerButton = document.createElement("button");
-    trailerButton.textContent = "Watch trailer";
+    trailerButton.textContent = "Trailer";
     trailerButton.addEventListener("click", function () {
       openTrailer(movie.id);
     });
@@ -229,6 +332,54 @@ function openTrailer(movieId) {
 }
 
 
+// ===== Popcorn bucket: pops popcorn when the mouse moves over it =====
+const popcorn = document.getElementById("popcorn");
+const popCount = document.getElementById("pop-count");
+let totalPopped = 0;
+let lastPopTime = 0;
+
+function popKernel() {
+  // Make one piece of popcorn at the top of the bucket
+  const kernel = document.createElement("span");
+  kernel.classList.add("kernel");
+  kernel.style.left = (30 + Math.random() * 40) + "%"; // random spot across the top
+  popcorn.appendChild(kernel);
+
+  // A moment later, send it flying in a random direction
+  setTimeout(function () {
+    const x = Math.random() * 200 - 100;   // left or right
+    const y = -(90 + Math.random() * 110); // always up
+    const spin = Math.random() * 720;
+    kernel.style.transform = "translate(" + x + "px, " + y + "px) rotate(" + spin + "deg)";
+    kernel.style.opacity = "0";
+  }, 20);
+
+  // Remove it after the animation so the page doesn't fill up
+  setTimeout(function () {
+    kernel.remove();
+  }, 1000);
+
+  totalPopped = totalPopped + 1;
+  popCount.textContent = totalPopped;
+}
+
+// Mouse moving over the bucket: pop one piece (at most every 60ms)
+popcorn.addEventListener("mousemove", function () {
+  const now = Date.now();
+  if (now - lastPopTime > 60) {
+    lastPopTime = now;
+    popKernel();
+  }
+});
+
+// Click or tap (for phones, which have no hover): pop a handful
+popcorn.addEventListener("click", function () {
+  for (let i = 0; i < 8; i++) {
+    popKernel();
+  }
+});
+
+
 // ===== Start =====
-loadTrailers();
+buildCarousel();
 loadXmenMovies();
