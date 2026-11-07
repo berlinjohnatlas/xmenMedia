@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>X-Men Media - Home</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="basicStyle.css">
     <link rel="icon" href="images/favicon.png" type="image/png">
     <script src="script.js" defer></script>
 </head>
@@ -21,12 +21,105 @@
         <a href="patstewTRIB.html">Tribute Page</a>
     </nav>
     <main>
+        <p class="slanted-text">
         <h2>X-Men Media</h2>
+        </p>
         <p>Hello! Welcome to the 4-page website dedicated to X-Men in all kind of media, including comics, movies, and video games. Use the navigation bar above to explore each of the sections.</p>
         <p>X-Men Comics, movies, and videoGames.</p>
         <p class="slanted-text">
-            <h3 class="xmen-title">X-Men Media Highlights</h3>
+            <h3 class="xmen-title">IGDB Game Search</h3>
         </p>
+        
+    <a href="https://www.igdb.com/franchises/x-men">This would have been the result of the API call</a>
+ 
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Enter game name..."
+    >
+
+    <button onclick="handleSearch()">Search</button>
+
+    <div id="results"></div>
+
+    <script>
+
+        async function searchGames(query) {
+            const response = await fetch("https://api.igdb.com/v4/games", {
+                method: "POST",
+                headers: {
+                    "Client-ID": "YOUR_CLIENT_ID",
+                    "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+                    "Content-Type": "text/plain"
+                },
+                body: `
+                    search "${query}";
+                    fields id, name, first_release_date, total_rating, summary, cover.*;
+                `
+            });
+
+            if (!response.ok) {
+                throw new Error(`IGDB API Error: ${response.status}`);
+            }
+
+            return await response.json();
+        }
+
+        async function handleSearch() {
+            const query = document.getElementById("searchInput").value.trim();
+            const results = document.getElementById("results");
+
+            if (!query) {
+                results.innerHTML = "Please enter a game name.";
+                return;
+            }
+
+            results.innerHTML = "Searching...";
+
+            try {
+                const games = await searchGames(query);
+
+                results.innerHTML = "";
+
+                if (games.length === 0) {
+                    results.innerHTML = "No games found.";
+                    return;
+                }
+
+                games.forEach(game => {
+                    const item = document.createElement("div");
+
+                    item.innerHTML = `
+                        <h3>${escapeHTML(game.name)}</h3>
+                        <p>Game ID: ${game.id}</p>
+                        <p>Rating: ${game.total_rating || "Not rated"}</p>
+                        <p>${escapeHTML(game.summary || "No description available.")}</p>
+                        <hr>
+                    `;
+
+                    results.appendChild(item);
+                });
+
+            } catch (error) {
+                results.textContent = error.message;
+                console.error(error);
+            }
+        }
+
+        function escapeHTML(value) {
+            return String(value).replace(/[&<>"']/g, char => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[char]);
+        }
+
+    </script>
+
+
+
     </main>
     <footer>
         <p>&copy; 2026 John Berlin | Contact: john.berlin@atlasstudents.com</p>

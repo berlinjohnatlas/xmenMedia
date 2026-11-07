@@ -2,22 +2,77 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            background-color: #f4f4f978;
+            transition: background-color 60s linear;
             color: #333; 
             }
+            body.fade {
+                background-color: #000;
+            }
+            
         header {    
-             background: linear-gradient(to bottom, #fbf017, #041ec6);
+             background: linear-gradient(var(--angle, 135deg), #F5C542, #1C3563, #F5C542);
+             background-size: 200% 200%;
+             background-position: var(--x, 50%) var(--y, 50%);
              color: #fff; 
              padding: 1rem 2rem; 
-             text-align: center; 
+             text-align: center;
+             transition: background-position 0.15s ease-out;
             }
         h1 {   
             font-size: 48px;
-            background: linear-gradient(to top, #e9ac05, #522605);
+            background: linear-gradient(to right, #FFFFFF, #F5C542);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             }
+            aside{
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: #080D1A;
+            }
+            #my h2 {
+                font-size: 4rem;
+                font-family: "Arial", sans-serif;
+                color: #FFCC66;
+            }
+            #container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 30px;
+                border: 5px solid #CC99CC;
+                border-radius: 40px;
+                background-color: #151D32;
+            }
+            #display {
+                font-size: 5rem;
+                font-family: monospace;
+                font-weight: bold;
+                color: #FFCC66;
+                text-shadow: 2px 2px 2px hsla(0, 0%, 0%, 0.75);
+                margin-bottom: 25px;
+                
+            }
+            #controls buttons {
+                font-size: 1.5rem;
+                font-weight: bold;
+                padding: 10px 20px;
+                margin: 5px;
+                min-width: 125px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                color: black;
+                transition: background-color 0.5s ease;
+            }
+            #startBtn { background-color: #66CCFF; }
+            #startBtn:hover { background-color: #3399CC; }
+            #stopBtn { background-color: #CC6666; }
+            #stopBtn:hover { background-color: #993333; }
+            #resetBtn { background-color: #FFCC66; }
+            #resetBtn:hover { background-color: #CC9933; }
         .slanted-text {
                 /* Accepts any angle from -90deg to 90deg */
                 font-style: oblique 20deg; 
@@ -30,18 +85,18 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             color: #ffcc00; /* Classic X-Men yellow/gold */
-            text-shadow: 1.5px 1.5px 0px #cc0000; /* Classic blue drop shadow */
+            text-shadow: 1.5px 1.5px 0px #cc0000; /* Red drop shadow */
             }
 
         nav { 
             display: flex;
             justify-content: center;
             font-family: Arial, sans-serif;
-            background: #444;
+            background: white;
             padding: 0.5rem; 
             }
-        nav a { 
-               color: white; 
+        nav a{ 
+                
                margin: 0 1rem; 
                text-decoration: none; 
                font-weight: bold; 
@@ -50,18 +105,19 @@
             { 
                text-decoration: underline; 
             }
-            a:active {
+         nav a:active {
                 color: inherit;
             }
-            a:visited {
+         nav a:visited {
                 color: inherit;
             }
         main { 
                padding: 2rem;
                max-width: 600px;
-               margin: auto; background: white;
+               margin: auto; background: linear-gradient(to bottom, #c6c6c6, #686868);
                box-shadow: 0 0 10px rgba(0,0,0,0.1);
                margin-top: 2rem; border-radius: 8px; 
+               border: 2px solid #fefefe;
             }
         form { 
               display: flex;
